@@ -141,8 +141,35 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.4.2.RELEASE</version> 
+				<!-- 这个版本对应才能打包jar访问jsp页面，其他版本不行 -->
 			</plugin>
+			
 		</plugins>
+		
+		 <resources>    
+			 <resource>      
+				<directory>src/main/java</directory>      
+				<includes>        
+					<include>**/mybatis/**</include><!-- 引入mybatis到classes -->      
+				</includes>   
+			</resource>
+			<resource>      
+				<directory>src/main/java/resource</directory>      
+				<includes>        
+					<include>**/**</include><!-- 引入resource到classes -->          
+				</includes>   
+			</resource>
+			<resource>
+	                <directory>${basedir}/src/main/webapp</directory>
+                    <!--注意此次必须要放在此目录下jar打包后才能被访问到-->
+	                <targetPath>META-INF/resources</targetPath> 
+	                <includes>
+	                    <include>**/**</include>
+	                </includes>
+	         </resource>
+		</resources> 
+
 	</build>
 
   

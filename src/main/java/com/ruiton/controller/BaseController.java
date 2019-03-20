@@ -45,6 +45,7 @@ public class BaseController {
 		return modelAndView;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	protected Paginer getPaginer() {
 		HttpServletRequest request=getRequest();
 		String pageIdStr=request.getParameter("page");

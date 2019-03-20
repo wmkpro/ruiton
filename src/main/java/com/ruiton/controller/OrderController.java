@@ -36,6 +36,7 @@ public class OrderController extends BaseController{
 		return modelAndView;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/orderlist")
 	public void orderlist(){
 		try{
