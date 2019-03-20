@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruiton.dao.OrderDao" >
+ 	
+ 	<resultMap type="com.ruiton.vo.OrderVo" id="OrderVo"/> 
+	<parameterMap type="com.ruiton.vo.OrderVo" id="OrderVo"/> 
+	
+	<sql id="sqlField">
+	`id`, `no`, `area`, `address`, `customerName`, `weight`, `patient`, `orderNo`, `paymentUnit`, `receiptTime`
+	, `shipmentTime`, `effectiveTime`, `model`, `singlejaw`, `material`, `price`, `paymentDesc`, `paymentTime`, `remark`, `eBrace`, `followPerson`
+	, `salePerson`, `createTime`, `updateTime`
+	</sql>
+	<sql id="sqlWhere">
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<if test="no!=null">
+ 			and no=#{no}
+ 			</if>
+ 		</trim>
+ 		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</sql>
+	
+	<select id="getMapList" parameterMap="OrderVo" resultType="java.util.Map">
+		SELECT <include refid="sqlField"></include>
+ 		from t_order where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	
+	<select id="getList" parameterMap="OrderVo" resultMap="OrderVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_order where 1=1
+ 		<include refid="sqlWhere"></include>
+ 		<if test="orderBySql!=null">
+ 		${orderBySql}
+ 		</if>
+ 		<if test="pageStartRow!=null">
+ 		limit #{pageStartRow},#{pageEndRow}
+ 		</if> 
+	</select>
+	<select id="getCount" parameterMap="OrderVo" resultType="long">
+		SELECT count(*)
+ 		from t_order where 1=1
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 根据用户对象，查询单个对象-->
+	<select id="get" parameterMap="OrderVo" resultMap="OrderVo">
+		SELECT <include refid="sqlField"></include>
+ 		from t_order where 
+ 		<include refid="sqlWhere"></include>
+	</select>
+	
+	<!-- 添加单个对象-->
+	<insert id="add" parameterMap="OrderVo">
+	   	insert into 
+		t_order(
+		`no`, `area`, `address`, `customerName`, `weight`, `patient`, `orderNo`, `paymentUnit`, `receiptTime`
+		, `shipmentTime`, `effectiveTime`, `model`, `singlejaw`, `material`, `price`, `paymentDesc`, `paymentTime`
+		, `remark`, `eBrace`, `followPerson`, `salePerson`
+		)
+		values(
+		#{no},#{area},#{address},#{customerName},#{weight},#{patient},#{orderNo},#{paymentUnit},#{receiptTime}
+		, #{shipmentTime},#{effectiveTime},#{model},#{singlejaw},#{material},#{price},#{paymentDesc},#{paymentTime}
+		, #{remark},#{eBrace},#{followPerson},#{salePerson}
+		)
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+		    select @@IDENTITY as id
+		 </selectKey>	   
+	</insert>
+
+	<!-- 修改用户信息 -->
+	<update id="updateByUqKey" parameterMap="OrderVo">
+		update t_order SET 
+		<trim suffixOverrides=",">
+		<if test="no!=null">no=#{no},</if>
+		<if test="area!=null">area=#{area},</if>
+		<if test="address!=null">address=#{address},</if>
+		<if test="customerName!=null">customerName=#{customerName},</if>
+		<if test="weight != null">weight=#{weight},</if>
+		<if test="patient != null">patient=#{patient},</if>
+		<if test="orderNo != null">orderNo=#{orderNo},</if>
+		<if test="paymentUnit != null">paymentUnit=#{paymentUnit},</if>
+		<if test="receiptTime != null">receiptTime=#{receiptTime},</if>
+		<if test="shipmentTime != null">shipmentTime=#{shipmentTime},</if>
+		<if test="effectiveTime != null">effectiveTime=#{effectiveTime},</if>
+		<if test="model != null">model=#{model},</if>
+		<if test="singlejaw != null">singlejaw=#{singlejaw},</if>
+		<if test="material != null">material=#{material},</if>
+		<if test="price != null">price=#{price},</if>
+		<if test="paymentDesc != null">paymentDesc=#{paymentDesc},</if>
+		<if test="paymentTime != null">paymentTime=#{paymentTime},</if>
+		<if test="remark != null">remark=#{remark},</if>
+		<if test="eBrace != null">eBrace=#{eBrace},</if>
+		<if test="followPerson != null">followPerson=#{followPerson},</if>
+		<if test="salePerson != null">salePerson=#{salePerson},</if>
+		</trim>
+		where 
+		<trim prefixOverrides="and">
+ 			<if test="id!=null">
+ 			and id=#{id}
+ 			</if>
+ 			<!-- <if test="no!=null">
+ 			and no=#{no}
+ 			</if> -->
+ 		</trim>
+	</update>
+	
+	<delete id="del" parameterMap="OrderVo">
+		delete from t_order where 
+		<if test="whereSql!=null">
+ 		${whereSql}
+ 		</if>
+	</delete>
+	
+</mapper>
